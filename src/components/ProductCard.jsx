@@ -1,7 +1,15 @@
 // ROUNTING
 import { Link } from "react-router-dom";
 
+// CONTEXT
+import { useCart } from '../context/CartContext';
+
 const ProductCard = ({ product }) => {
+    const { cartItems, addToCart } = useCart();
+
+    // GET ITEM QUANTITY
+    const productInCart = cartItems.find((item) => item.id === product.id);
+
     return (
         <div className='product-card'>
             <img src={product.image} alt={product.name} className='product-card-image' />
@@ -10,7 +18,7 @@ const ProductCard = ({ product }) => {
                 <p className='product-card-price'>{product.price}</p>
                 <div className='product-card-actions'>
                     <Link to={`/product/${product.id}`} className='btn btn-secondary'>View Details</Link>
-                    <button className='btn btn-primary'>Add to cart</button>
+                    <button className='btn btn-primary' onClick={() => addToCart(product.id)}>Add to cart {productInCart ? (`(${productInCart.quantity})`) : ""}</button>
                 </div>
             </div>
         </div>
